@@ -1,0 +1,13 @@
+{
+    "source": {
+        "directories": [
+            "Src"
+        ]
+    },
+    "timeout": 10,
+    "logs": {
+        "text": ".infection/infection.log",
+        "summary": ".infection/summary.log",
+        "json": ".infection/infection-log.json"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "makhnanov/php81-self-filling",
+    "description": "Traits for add ability for classes filling themselves.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Makhnanov\\Php81SelfFilling\\": "Src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Makhnanov\\Php81SelfFilling\\Test\\": "Test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Romaxa",
+            "email": "bakirov.important@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "4.x-dev",
+        "jetbrains/phpstorm-attributes": "dev-master",
+        "infection/infection": "dev-master"
+    }
+}

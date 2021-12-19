@@ -1,0 +1,7 @@
+vendor
+.idea
+.phpunit.cache
+.build
+.html
+.infection
+debug.php
