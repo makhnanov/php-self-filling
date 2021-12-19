@@ -19,3 +19,5 @@ run-infection:
 	$(CMD) php vendor/bin/infection --test-framework=phpunit --coverage=.build/coverage --threads=4
 run-debug:
 	$(CMD) php debug.php
+run-report:
+	google-chrome .html/index.html
