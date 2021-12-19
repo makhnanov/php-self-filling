@@ -1,6 +1,6 @@
 {
     "name": "makhnanov/php81-self-filling",
-    "description": "Traits for add ability for classes filling themselves.",
+    "description": "Trait allows classes to fill themselves.",
     "type": "library",
     "license": "MIT",
     "autoload": {
