@@ -1,10 +1,10 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test\Classes;
+namespace Makhnanov\PhpSelfFilling\Test\Classes;
 
 use Closure;
 use Iterator;
-use Makhnanov\Php81SelfFilling\SelfFilling;
+use Makhnanov\PhpSelfFilling\SelfFilling;
 
 class TestSelfFill
 {

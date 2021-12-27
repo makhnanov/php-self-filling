@@ -1,6 +1,6 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Exception;
+namespace Makhnanov\PhpSelfFilling\Exception;
 
 use Exception;
 

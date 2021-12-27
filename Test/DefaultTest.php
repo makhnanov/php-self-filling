@@ -1,12 +1,12 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\Php81SelfFilling\Exception\TypeErrorException;
-use Makhnanov\Php81SelfFilling\SelfFill;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestEnum;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestIterator;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestSelfFill;
+use Makhnanov\PhpSelfFilling\Exception\TypeErrorException;
+use Makhnanov\PhpSelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestEnum;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestIterator;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use TypeError;

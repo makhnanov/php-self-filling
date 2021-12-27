@@ -1,11 +1,11 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\Php81SelfFilling\Behaviour\Excess;
-use Makhnanov\Php81SelfFilling\Behaviour\MissingData;
-use Makhnanov\Php81SelfFilling\Exception\ExcessException;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestSelfFill;
+use Makhnanov\PhpSelfFilling\Behaviour\Excess;
+use Makhnanov\PhpSelfFilling\Behaviour\MissingData;
+use Makhnanov\PhpSelfFilling\Exception\ExcessException;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
 
 class ExcessTest extends ExcludeTest
 {

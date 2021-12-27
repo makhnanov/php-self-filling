@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Makhnanov\Php81SelfFilling;
+namespace Makhnanov\PhpSelfFilling;
 
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Immutable;
 use JsonException;
-use Makhnanov\Php81SelfFilling\Behaviour\ErrorBehaviour;
-use Makhnanov\Php81SelfFilling\Behaviour\Excess;
-use Makhnanov\Php81SelfFilling\Behaviour\MissingData;
-use Makhnanov\Php81SelfFilling\Exception\ExcessException;
-use Makhnanov\Php81SelfFilling\Exception\MissingDataException;
+use Makhnanov\PhpSelfFilling\Behaviour\ErrorBehaviour;
+use Makhnanov\PhpSelfFilling\Behaviour\Excess;
+use Makhnanov\PhpSelfFilling\Behaviour\MissingData;
+use Makhnanov\PhpSelfFilling\Exception\ExcessException;
+use Makhnanov\PhpSelfFilling\Exception\MissingDataException;
 use ReflectionException;
 use ReflectionProperty;
 use Throwable;
@@ -104,10 +104,10 @@ trait SelfFilling
      *
      * @param string $filler # Test ready
      *                       RU: Класс - наполнитель в котором происходит вся бизнес логика заполнения свойств.
-     *                           По умолчанию это Makhnanov\Php81SelfFilling\Filler,
+     *                           По умолчанию это Makhnanov\PhpSelfFilling\Filler,
      *                           но его можно изменить и использовать наследника
      *                       EN: Class - filler, which include filling business logic.
-     *                           By default Makhnanov\Php81SelfFilling\Filler using. You can extend it and use child.
+     *                           By default Makhnanov\PhpSelfFilling\Filler using. You can extend it and use child.
      *                       Examples:
      *                           $class->selfFill(filler: App\Models\ExtendedFiller::class);
      *

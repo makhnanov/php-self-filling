@@ -1,6 +1,6 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test\Classes;
+namespace Makhnanov\PhpSelfFilling\Test\Classes;
 
 use Iterator;
 

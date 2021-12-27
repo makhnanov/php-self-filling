@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Makhnanov\Php81SelfFilling;
+namespace Makhnanov\PhpSelfFilling;
 
-use Makhnanov\Php81SelfFilling\Behaviour\ErrorBehaviour;
-use Makhnanov\Php81SelfFilling\Behaviour\Excess;
-use Makhnanov\Php81SelfFilling\Behaviour\MissingData;
+use Makhnanov\PhpSelfFilling\Behaviour\ErrorBehaviour;
+use Makhnanov\PhpSelfFilling\Behaviour\Excess;
+use Makhnanov\PhpSelfFilling\Behaviour\MissingData;
 use ReflectionProperty;
 
 interface SelfFillable

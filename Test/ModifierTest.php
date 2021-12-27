@@ -1,9 +1,9 @@
 <?php
 /** @noinspection PhpArgumentWithoutNamedIdentifierInspection */
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\Php81SelfFilling\SelfFilling;
+use Makhnanov\PhpSelfFilling\SelfFilling;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 

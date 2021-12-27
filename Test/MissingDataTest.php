@@ -1,10 +1,10 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\Php81SelfFilling\Behaviour\MissingData;
-use Makhnanov\Php81SelfFilling\Exception\MissingDataException;
-use Makhnanov\Php81SelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\Behaviour\MissingData;
+use Makhnanov\PhpSelfFilling\Exception\MissingDataException;
+use Makhnanov\PhpSelfFilling\SelfFill;
 use PHPUnit\Framework\TestCase;
 
 class MissingDataTest extends TestCase

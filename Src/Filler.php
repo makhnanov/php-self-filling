@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Makhnanov\Php81SelfFilling;
+namespace Makhnanov\PhpSelfFilling;
 
 use Closure;
-use Makhnanov\Php81SelfFilling\Exception\MissingDataException;
+use Makhnanov\PhpSelfFilling\Exception\MissingDataException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Behaviour;
+namespace Makhnanov\PhpSelfFilling\Behaviour;
 
 enum MissingData
 {

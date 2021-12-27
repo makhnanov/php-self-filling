@@ -1,8 +1,8 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test\Classes;
+namespace Makhnanov\PhpSelfFilling\Test\Classes;
 
-use Makhnanov\Php81SelfFilling\Filler;
+use Makhnanov\PhpSelfFilling\Filler;
 
 class TestExtendedFiller extends Filler
 {

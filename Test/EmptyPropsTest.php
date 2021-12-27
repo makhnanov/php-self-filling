@@ -1,8 +1,8 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\Php81SelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\SelfFill;
 use PHPUnit\Framework\TestCase;
 
 class EmptyPropsTest extends TestCase

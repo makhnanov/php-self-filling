@@ -1,6 +1,6 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling;
+namespace Makhnanov\PhpSelfFilling;
 
 class SelfFill implements SelfFillable
 {

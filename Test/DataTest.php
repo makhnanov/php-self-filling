@@ -3,14 +3,14 @@
 
 declare(strict_types=1);
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
 use Closure;
 use Iterator;
 use JsonException;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestEnum;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestIterator;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestSelfFill;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestEnum;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestIterator;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use stdClass;

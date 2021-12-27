@@ -1,12 +1,12 @@
 <?php
 
-namespace Makhnanov\Php81SelfFilling\Test;
+namespace Makhnanov\PhpSelfFilling\Test;
 
 use InvalidArgumentException;
-use Makhnanov\Php81SelfFilling\SelfFill;
-use Makhnanov\Php81SelfFilling\SelfFilling;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestExtendedFiller;
-use Makhnanov\Php81SelfFilling\Test\Classes\TestSelfFill;
+use Makhnanov\PhpSelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\SelfFilling;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestExtendedFiller;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertSame;
@@ -45,7 +45,7 @@ class FillerTest extends TestCase
             };
         } catch (InvalidArgumentException $e) {
             assertSame(
-                'Filler must be extended from Makhnanov\Php81SelfFilling\Filler class.',
+                'Filler must be extended from Makhnanov\PhpSelfFilling\Filler class.',
                 $e->getMessage()
             );
         }

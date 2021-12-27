@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Makhnanov\\Php81SelfFilling\\": "Src/"
+            "Makhnanov\\PhpSelfFilling\\": "Src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Makhnanov\\Php81SelfFilling\\Test\\": "Test/"
+            "Makhnanov\\PhpSelfFilling\\Test\\": "Test/"
         }
     },
     "authors": [
