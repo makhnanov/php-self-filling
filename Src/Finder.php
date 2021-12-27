@@ -11,7 +11,7 @@ use ReflectionException;
 use ReflectionProperty;
 use stdClass;
 
-class Filler
+class Finder
 {
     protected ReflectionClass $receiverReflection;
 
@@ -29,6 +29,7 @@ class Filler
         protected array        $filterMap = [],
         string|array           $exclude = [],
         ?int                   $modifier = ReflectionProperty::IS_PUBLIC,
+        protected bool         $fromDataIdToPropertyCamel = false,
     ) {
         $this->exclude = is_array($exclude)
             ? $exclude
@@ -64,7 +65,14 @@ class Filler
         }
 
         if (is_array($this->data)) {
-            $dataKeys = array_keys($this->data);
+            if ($this->fromDataIdToPropertyCamel) {
+                $dataKeys = [];
+                foreach (array_keys($this->data) as $dataKey) {
+                    $dataKeys[$dataKey] = $this->convertKeyNameToCamel($dataKey);
+                }
+            } else {
+                $dataKeys = array_keys($this->data);
+            }
         } else {
             $dataKeys = [];
             foreach ($this->getDataReflection()->getProperties(ReflectionProperty::IS_PUBLIC) as $dataProperty) {
@@ -73,12 +81,52 @@ class Filler
         }
 
         $excess = [];
-        $keysDiff = array_diff($dataKeys, $usefulProperties);
-        foreach ($keysDiff as $keyDiff) {
-            $excess[$keyDiff] = $this->getDataValue($keyDiff);
+        $allDifferences = array_diff($dataKeys, $usefulProperties);
+        foreach ($allDifferences as $difference) {
+            $excess[$difference] = is_array($this->data) && $this->fromDataIdToPropertyCamel
+                ? array_search($this->convertKeyNameToCamel($difference), $dataKeys, true)
+                : $this->getDataValue($difference);
         }
 
         return $excess;
+    }
+
+    private function convertKeyNameToId(string $input): string
+    {
+        $separator = '_';
+        return mb_strtolower(
+            trim(
+                str_replace(
+                    '_',
+                    $separator,
+                    preg_replace(
+                        '/(?<=\p{L})(?<!\p{Lu})(\p{Lu})/u',
+                        addslashes($separator) . '\1',
+                        $input
+                    )
+                ),
+                $separator
+            )
+        );
+    }
+
+    private function convertKeyNameToCamel(string $input): string
+    {
+        $string = preg_replace('/[^\pL\pN]+/u', ' ', $input);
+        $words = preg_split('/\s/u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        $wordsWithUppercaseFirstCharacter = array_map(static function (string $string) {
+            $encoding = 'UTF-8';
+            $firstCharacter = mb_substr($string, 0, 1, $encoding);
+            $rest = mb_substr($string, 1, null, $encoding);
+            return mb_strtoupper($firstCharacter, $encoding) . $rest;
+        }, $words);
+        return lcfirst(
+            str_replace(
+                ' ',
+                '',
+                implode(' ', $wordsWithUppercaseFirstCharacter)
+            )
+        );
     }
 
     /**
@@ -98,12 +146,15 @@ class Filler
      */
     public function getValue(ReflectionProperty $property, bool $replaceWithDefault): mixed
     {
-        $propertyName = $property->getName();
+        $propertyName = $this->fromDataIdToPropertyCamel
+            ? $this->convertKeyNameToId($property->getName())
+            : $property->getName();
+
         if ($this->existInData($propertyName)) {
 
             $dataValue = $this->getDataValue($propertyName);
-
             $filter = $this->getFilter($propertyName);
+
             if ($filter) {
                 $dataValue = $filter($property, $dataValue);
             }
@@ -170,7 +221,7 @@ class Filler
                 $personal = $this->defaultMap[$inputDefaultKey];
             }
         }
-        return $personal ?? $this->defaultMap['*'];
+        return $personal ?? $this->defaultMap['*'] ?? null;
     }
 
     /**
@@ -185,7 +236,7 @@ class Filler
             $name = $type->getName();
             /** @psalm-suppress UndefinedClass */
             if (
-                is_a($name, FillableConstruct::class, true)
+                is_a($name, SelfFillableConstruct::class, true)
                 && (new ReflectionClass($name))->isInstantiable()
             ) {
                 return new $name($dataValue);

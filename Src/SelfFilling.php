@@ -30,7 +30,7 @@ trait SelfFilling
      * RU: Лишние входные данные которые никак не используются.
      * EN: Extra input data is not used in any way.
      *
-     * @var array<mixed, mixed>
+     * @var array
      */
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public array $selfFillExcess = [];
@@ -102,14 +102,16 @@ trait SelfFilling
      *                          ReflectionProperty::IS_READONLY
      *
      *
-     * @param string $filler # Test ready
+     * @param string $finder # Test ready
      *                       RU: Класс - наполнитель в котором происходит вся бизнес логика заполнения свойств.
-     *                           По умолчанию это Makhnanov\PhpSelfFilling\Filler,
+     *                           По умолчанию это Makhnanov\PhpSelfFilling\Finder,
      *                           но его можно изменить и использовать наследника
      *                       EN: Class - filler, which include filling business logic.
-     *                           By default Makhnanov\PhpSelfFilling\Filler using. You can extend it and use child.
+     *                           By default Makhnanov\PhpSelfFilling\Finder using. You can extend it and use child.
      *                       Examples:
      *                           $class->selfFill(filler: App\Models\ExtendedFiller::class);
+     *
+     * @param bool $fromDataIdToPropertyCamel
      *
      * @throws ExcessException
      * @throws JsonException RU: Если данные в $data это строка с не валидным JSON
@@ -127,7 +129,8 @@ trait SelfFilling
         MissingData         $missingDataBehaviour = MissingData::REPLACE_WITH_DEFAULT,
         Excess              $excessBehaviour = Excess::IGNORE,
         int                 $modifier = ReflectionProperty::IS_PUBLIC,
-        string              $filler = Filler::class
+        string              $finder = Finder::class,
+        bool                $fromDataIdToPropertyCamel = false,
     ): void {
         $exclude = array_merge($exclude, [
             'selfFillExcess',
@@ -135,41 +138,35 @@ trait SelfFilling
             'selfFillMissingData'
         ]);
 
-        $defaultMap['*'] = $defaultMap['*'] ?? null;
-
         if (is_string($data)) {
-            /**
-             * @var array $data
-             * @noinspection PhpStrictTypeCheckingInspection
-             * @noinspection PhpParamsInspection
-             */
             $data = json_decode($data, true, flags: JSON_THROW_ON_ERROR);
         }
 
-        if (!is_a($filler, Filler::class, true)) {
-            throw new InvalidArgumentException('Filler must be extended from ' . Filler::class . ' class.');
+        if (!is_a($finder, Finder::class, true)) {
+            throw new InvalidArgumentException('Finder must be extended from ' . Finder::class . ' class.');
         }
 
-        /** @var Filler $filler */
-        $filler = new $filler(
+        /** @var Finder $finder */
+        $finder = new $finder(
             $this,
             $data,
             $defaultMap,
             $filterMap,
             $exclude,
             $modifier,
+            $fromDataIdToPropertyCamel,
         );
 
-        $this->selfFillExcess = $filler->detectExcess();
+        $this->selfFillExcess = $finder->detectExcess();
 
         if ($excessBehaviour === Excess::THROW && $this->selfFillExcess) {
             throw new ExcessException($this->selfFillExcess);
         }
 
-        foreach ($filler->receiverProperties as $property) {
+        foreach ($finder->receiverProperties as $property) {
             try {
                 try {
-                    $property->setValue($this, $filler->getValue(
+                    $property->setValue($this, $finder->getValue(
                         $property,
                         $missingDataBehaviour === MissingData::REPLACE_WITH_DEFAULT
                     ));
@@ -186,7 +183,7 @@ trait SelfFilling
                     throw $e;
                 }
                 if ($errorBehaviour === ErrorBehaviour::REPLACE_WITH_DEFAULT) {
-                    $property->setValue($this, $filler->getDefault($property));
+                    $property->setValue($this, $finder->getDefault($property));
                 }
             }
         }

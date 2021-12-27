@@ -12,7 +12,7 @@ run-composer-install:
 run-composer-update:
 	$(CMD) composer update
 run-test:
-	$(CMD) php vendor/bin/phpunit
+	$(CMD) php vendor/bin/phpunit --filter testPositive Test/CamelCaseTest.php
 run-psalm:
 	$(CMD) php vendor/bin/psalm --show-info=true
 run-infection:

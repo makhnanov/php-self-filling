@@ -2,14 +2,14 @@
 
 namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\PhpSelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\SelfFilling;
 use PHPUnit\Framework\TestCase;
 
 class EmptyPropsTest extends TestCase
 {
     public function testPositive()
     {
-        $o = new SelfFill();
+        $o = new class{ use SelfFilling; };
         $o->selfFill();
         $this->assertSame([], $o->selfFillErrors);
         $this->assertSame([], $o->selfFillMissingData);

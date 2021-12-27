@@ -2,8 +2,7 @@
 
 namespace Makhnanov\PhpSelfFilling\Test;
 
-use Makhnanov\PhpSelfFilling\Exception\TypeErrorException;
-use Makhnanov\PhpSelfFilling\SelfFill;
+use Makhnanov\PhpSelfFilling\SelfFilling;
 use Makhnanov\PhpSelfFilling\Test\Classes\TestEnum;
 use Makhnanov\PhpSelfFilling\Test\Classes\TestIterator;
 use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
@@ -55,8 +54,10 @@ class DefaultTest extends TestCase
 
     public function testMapNotOverride()
     {
-        $o = new class(['strength' => 1]) extends SelfFill
+        $o = new class(['strength' => 1])
         {
+            use SelfFilling;
+
             public int $strength;
 
             public function __construct(array $data)
@@ -70,8 +71,10 @@ class DefaultTest extends TestCase
     public function testMapNegative()
     {
         $this->expectException(TypeError::class);
-        new class extends SelfFill
+        new class
         {
+            use SelfFilling;
+
             public int $strength;
 
             public function __construct()
@@ -103,8 +106,10 @@ class DefaultTest extends TestCase
         }
         $this->assertNull(TestSelfFill::$singleton);
 
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public int $strength;
 
             public function __construct()
@@ -117,8 +122,10 @@ class DefaultTest extends TestCase
 
     public function testValueNotOverride()
     {
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public int $strength;
 
             public function __construct()
@@ -132,8 +139,10 @@ class DefaultTest extends TestCase
     public function testValueNegative()
     {
         $this->expectException(TypeError::class);
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public int $strength;
 
             public function __construct()
@@ -146,8 +155,10 @@ class DefaultTest extends TestCase
 
     public function testPositiveConcatenate()
     {
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public bool $a1;
             public bool $a2;
             public bool $b1;
@@ -172,8 +183,10 @@ class DefaultTest extends TestCase
 
     public function testPositiveRegex()
     {
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public bool $a1;
             public bool $a2;
             public bool $b1;
@@ -197,8 +210,10 @@ class DefaultTest extends TestCase
 
     public function testBad1()
     {
-        $o = new class extends SelfFill
+        $o = new class
         {
+            use SelfFilling;
+
             public bool $a1;
 
             public function __construct()

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
 
 declare(strict_types=1);
 
@@ -20,6 +20,7 @@ interface SelfFillable
         MissingData         $missingDataBehaviour = MissingData::REPLACE_WITH_DEFAULT,
         Excess              $excessBehaviour = Excess::IGNORE,
         int                 $modifier = ReflectionProperty::IS_PUBLIC,
-        string              $filler = Filler::class,
+        string              $finder = Finder::class,
+        bool                $fromDataIdToPropertyCamel = false,
     ): void;
 }

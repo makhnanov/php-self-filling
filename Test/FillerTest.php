@@ -3,9 +3,8 @@
 namespace Makhnanov\PhpSelfFilling\Test;
 
 use InvalidArgumentException;
-use Makhnanov\PhpSelfFilling\SelfFill;
 use Makhnanov\PhpSelfFilling\SelfFilling;
-use Makhnanov\PhpSelfFilling\Test\Classes\TestExtendedFiller;
+use Makhnanov\PhpSelfFilling\Test\Classes\TestExtendedFinder;
 use Makhnanov\PhpSelfFilling\Test\Classes\TestSelfFill;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +14,7 @@ class FillerTest extends TestCase
 {
     public function testExtendPositive()
     {
-        $o = new class(['v' => '1']) extends SelfFill
+        $o = new class(['v' => '1'])
         {
             use SelfFilling;
 
@@ -23,7 +22,7 @@ class FillerTest extends TestCase
 
             public function __construct(array $data)
             {
-                $this->selfFill($data, filler: TestExtendedFiller::class);
+                $this->selfFill($data, finder: TestExtendedFinder::class);
             }
         };
         assertSame('1', $o->v);
@@ -32,7 +31,7 @@ class FillerTest extends TestCase
     public function testNegative()
     {
         try {
-            new class(['v' => '1']) extends SelfFill
+            new class(['v' => '1'])
             {
                 use SelfFilling;
 
@@ -40,12 +39,12 @@ class FillerTest extends TestCase
 
                 public function __construct(array $data)
                 {
-                    $this->selfFill($data, filler: TestSelfFill::class);
+                    $this->selfFill($data, finder: TestSelfFill::class);
                 }
             };
         } catch (InvalidArgumentException $e) {
             assertSame(
-                'Filler must be extended from Makhnanov\PhpSelfFilling\Filler class.',
+                'Finder must be extended from Makhnanov\PhpSelfFilling\Finder class.',
                 $e->getMessage()
             );
         }
