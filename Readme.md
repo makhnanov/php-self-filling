@@ -1,10 +1,12 @@
-Trait for add ability for classes filling themselves.
---
+# Trait given ability for classes filling themselves.
 
+
+Installation
+-
 ```shell
-composer require makhnanov/php81-self-filling
+composer require makhnanov/php-self-filling
 ```
 
-Use cases:
---
-WIP.
+## Use cases
+### Simple usage
+
