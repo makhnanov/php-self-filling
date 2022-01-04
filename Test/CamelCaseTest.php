@@ -32,7 +32,7 @@ class CamelCaseTest extends TestCase
 
             public function __construct(array $data)
             {
-                $this->selfFill($data, fromDataIdToPropertyCamel: true);
+                $this->selfFill($data, toCamel: true);
             }
         };
         assertSame(2, $o->notIdProperty);

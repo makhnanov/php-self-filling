@@ -21,6 +21,6 @@ interface SelfFillable
         Excess              $excessBehaviour = Excess::IGNORE,
         int                 $modifier = ReflectionProperty::IS_PUBLIC,
         string              $finder = Finder::class,
-        bool                $fromDataIdToPropertyCamel = false,
+        bool                $toCamel = false,
     ): void;
 }

@@ -18,11 +18,19 @@ use Throwable;
 
 trait SelfFilling
 {
-    /** @var array<string, Throwable> */
+    /**
+     *
+     *
+     * @var array<string, Throwable>
+     */
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public array $selfFillErrors = [];
 
-    /** @var array<int, string> */
+    /**
+     *
+     *
+     * @var array<int, string>
+     */
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public array $selfFillMissingData = [];
 
@@ -95,12 +103,12 @@ trait SelfFilling
      *                      EN:
      *                          ToDo:
      *                      Available values:
+     *                          null - by default
      *                          ReflectionProperty::IS_PUBLIC
      *                          ReflectionProperty::IS_PROTECTED
      *                          ReflectionProperty::IS_PRIVATE
      *                          ReflectionProperty::IS_STATIC
      *                          ReflectionProperty::IS_READONLY
-     *
      *
      * @param string $finder # Test ready
      *                       RU: Класс - наполнитель в котором происходит вся бизнес логика заполнения свойств.
@@ -111,10 +119,10 @@ trait SelfFilling
      *                       Examples:
      *                           $class->selfFill(filler: App\Models\ExtendedFiller::class);
      *
-     * @param bool $fromDataIdToPropertyCamel
+     * @param bool $toCamel
      *
      * @throws ExcessException
-     * @throws JsonException RU: Если данные в $data это строка с не валидным JSON
+     * @throws JsonException RU: Если данные в $data это строка с невалидным JSON
      *                       EN: If param $data has invalid JSON
      * @throws MissingDataException
      * @throws ReflectionException
@@ -130,7 +138,7 @@ trait SelfFilling
         Excess              $excessBehaviour = Excess::IGNORE,
         int                 $modifier = ReflectionProperty::IS_PUBLIC,
         string              $finder = Finder::class,
-        bool                $fromDataIdToPropertyCamel = false,
+        bool                $toCamel = false,
     ): void {
         $exclude = array_merge($exclude, [
             'selfFillExcess',
@@ -154,7 +162,7 @@ trait SelfFilling
             $filterMap,
             $exclude,
             $modifier,
-            $fromDataIdToPropertyCamel,
+            $toCamel,
         );
 
         $this->selfFillExcess = $finder->detectExcess();
@@ -165,26 +173,23 @@ trait SelfFilling
 
         foreach ($finder->receiverProperties as $property) {
             try {
-                try {
-                    $property->setValue($this, $finder->getValue(
-                        $property,
-                        $missingDataBehaviour === MissingData::REPLACE_WITH_DEFAULT
-                    ));
-                } catch (MissingDataException $e) {
-                    $this->selfFillMissingData[] = $property->name;
-                    if ($missingDataBehaviour === MissingData::THROW_AFTER_FIRST) {
-                        throw $e;
-                    }
-                }
-
+                $property->setValue($this, $finder->getValue($property));
+            } catch (MissingDataException $e) {
+                $this->selfFillMissingData[] = $property->name;
+                match ($missingDataBehaviour) {
+                    MissingData::THROW_AFTER_FIRST => throw $e,
+                    MissingData::REPLACE_WITH_DEFAULT
+                    => $property->setValue($this, $finder->getDefault($property)),
+                    default => null
+                };
             } catch (Throwable $e) {
                 $this->selfFillErrors[$property->name] = $e;
-                if ($errorBehaviour === ErrorBehaviour::THROW_AFTER_FIRST) {
-                    throw $e;
-                }
-                if ($errorBehaviour === ErrorBehaviour::REPLACE_WITH_DEFAULT) {
-                    $property->setValue($this, $finder->getDefault($property));
-                }
+                match ($errorBehaviour) {
+                    ErrorBehaviour::THROW_AFTER_FIRST => throw $e,
+                    ErrorBehaviour::REPLACE_WITH_DEFAULT
+                    => $property->setValue($this, $finder->getDefault($property)),
+                    default => null
+                };
             }
         }
     }

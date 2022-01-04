@@ -114,11 +114,9 @@ class Finder
     {
         $string = preg_replace('/[^\pL\pN]+/u', ' ', $input);
         $words = preg_split('/\s/u', $string, -1, PREG_SPLIT_NO_EMPTY);
-        $wordsWithUppercaseFirstCharacter = array_map(static function (string $string) {
-            $encoding = 'UTF-8';
-            $firstCharacter = mb_substr($string, 0, 1, $encoding);
-            $rest = mb_substr($string, 1, null, $encoding);
-            return mb_strtoupper($firstCharacter, $encoding) . $rest;
+        $encoding = 'UTF-8';
+        $wordsWithUppercaseFirstCharacter = array_map(static function (string $string) use ($encoding) {
+            return mb_strtoupper(mb_substr($string, 0, 1, $encoding), $encoding) . mb_substr($string, 1, null, $encoding);
         }, $words);
         return lcfirst(
             str_replace(
@@ -144,7 +142,7 @@ class Finder
      * @throws MissingDataException
      * @throws ReflectionException
      */
-    public function getValue(ReflectionProperty $property, bool $replaceWithDefault): mixed
+    public function getValue(ReflectionProperty $property): mixed
     {
         $propertyName = $this->fromDataIdToPropertyCamel
             ? $this->convertKeyNameToId($property->getName())
@@ -166,11 +164,7 @@ class Finder
             return $this->transform($property, $dataValue);
         }
 
-        if (!$replaceWithDefault) {
-            throw new MissingDataException("There are no $property->name in data.");
-        }
-
-        return $this->getDefault($property);
+        throw new MissingDataException("There are no $property->name in data.");
     }
 
     /**

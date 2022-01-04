@@ -12,6 +12,8 @@ run-composer-install:
 run-composer-update:
 	$(CMD) composer update
 run-test:
+	$(CMD) php vendor/bin/phpunit
+run-one-test:
 	$(CMD) php vendor/bin/phpunit --filter testPositive Test/CamelCaseTest.php
 run-psalm:
 	$(CMD) php vendor/bin/psalm --show-info=true
@@ -20,4 +22,4 @@ run-infection:
 run-debug:
 	$(CMD) php debug.php
 run-report:
-	google-chrome .html/index.html
+	xdg-open .html/index.html
